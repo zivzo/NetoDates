@@ -36,11 +36,7 @@ const saveTime = (startDate, endDate) =>{
         
     // }
     //console.log(nDays); 
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
+
 }
 async function GetHebrewHoliday(){
     const moadim =await fetch('https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&min=on&mod=on&nx=on&year=now&month=x&ss=on&mf=on&c=on&geo=geoname&geonameid=3448439&M=on&s=on').then(res =>{
@@ -56,22 +52,17 @@ async function GetHebrewHoliday(){
     const mappedHoliday = israeliHoliday.map(holiday => {
         const ho = {
             name: holiday.title,
-<<<<<<< Updated upstream
             date: holiday.date,
-=======
-            date: new Date(holiday.date),
->>>>>>> Stashed changes
+
+          date: new Date(holiday.date),
             heb: holiday.hebrew
         }
         return ho;
     })
-<<<<<<< Updated upstream
     console.log(mappedHoliday);
-=======
+
     const sortedHolidays = mappedHoliday.sort((a,b) => {
         return a.date - b.date;
     })
     console.log(sortedHolidays);
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 }
