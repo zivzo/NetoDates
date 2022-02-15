@@ -5,8 +5,8 @@ const saveTime = (startDate, endDate) =>{
     const sUtcDay = sDate.getUTCDay();
     const eDate = new Date(endDate.value);
     const eUtcDay = eDate.getUTCDay();
-    console.log(sUtcDay);
-    console.log(eUtcDay);
+    // console.log(sUtcDay);
+    // console.log(eUtcDay);
     const newDateStemp = eDate.getTime() - sDate.getTime();
     const nDays = (newDateStemp/(1000*60*60*24)+1);//days between two dates
     const fullWeeks = Math.floor(nDays/7);
