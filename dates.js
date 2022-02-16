@@ -1,6 +1,7 @@
 // days - 0 sunday...
 //if start day is 6 and end day is 0 we return 1, we should return 0
 
+
 const saveTime = (startDate, endDate) =>{
     const sDate = new Date(startDate.value);
     const sUtcDay = sDate.getUTCDay();
