@@ -12,8 +12,15 @@ const saveTime = (startDate, endDate) =>{
     const nDays = (newDateStemp/(1000*60*60*24));//days between two dates
     const fullWeeks = Math.floor(nDays/7);
     let workingDay = nDays - (fullWeeks*2);//NOTE: (-1 in true not include /+1 in false include) to include the start date in the calculation, can remove it if we want to not include the start date
-    if(fullWeeks === 0 && sUtcDay === 6 && eUtcDay === 0)
-        workingDay = 0;
+    //NOTE: if start date in saturday and end date is sunday, special occasion, working day 0 (algorithem says 1)
+    if(sUtcDay === 6 && eUtcDay === 0)
+    {
+        workingDay--;
+    }
+    //NOTE: if start date in sunday and end date is saturday, special occasion, working day 5 (algorithem says 6)
+    if (sUtcDay===0 &&eUtcDay === 6) {
+        workingDay--;
+    }
     //NOTE: this If checks if the starting day and the end day are the same and if its saturday or  sunday, if true we substruct one working day {because we include the start day and our algorithm}
     // if(sUtcDay === 6 || sUtcDay === 0 ||eUtcDay === 6 || eUtcDay === 0 ){
     //     workingDay--;
