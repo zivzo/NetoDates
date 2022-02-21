@@ -98,3 +98,40 @@ const saveTime = (startDate, endDate) => {
     //console.log(nDays); 
 
 }
+const diffBusinessDays = function(startDate, endDate){
+  const sDate = new Date(startDate.value);
+  let eDate = new Date(endDate.value);
+  let sUtcDay = sDate.getUTCDay()==0?7:sDate.getUTCDay();//number between 1-7
+  let eUtcDay = eDate.getUTCDay()==0?7:eDate.getUTCDay();//number between 1-7
+  let extraStart = sUtcDay < 6 ? 0 : sUtcDay === 6 ? 2: 1;
+  let extraEnd = eUtcDay < 6 ? 0 : 1;
+  const newDateStemp = eDate.getTime() - sDate.getTime();//days between in milliseconds
+  const days = Math.floor(newDateStemp/(1000*60*60*24))+1;
+  const diffWeek = Math.floor(newDateStemp/(1000*60*60*24*7))//weeks between two dates
+  let sub = 0;
+  if(eUtcDay === 7 && sUtcDay === 7){
+    sub += 1;
+    console.log('in first if');
+  }
+  if(sUtcDay == 6 && eUtcDay == 7){
+    sub += 1
+    console.log('in second if');
+  }
+  let businessDays;
+  if(!(sUtcDay-eUtcDay > 0 && sUtcDay> 5 && eUtcDay !==6)){
+    businessDays = days - ((diffWeek*2) + extraStart + extraEnd);
+    console.log('Plus');
+  }
+  else{
+    businessDays = days - (((diffWeek+1)*2) + extraStart + extraEnd);
+    console.log('Minus');
+
+  }
+  businessDays += sub;
+  console.log(businessDays);
+  console.log(`sUtcDay: ${sUtcDay}`);
+  console.log(`eUtcDay: ${eUtcDay}`);
+  console.log(`days: ${days}`);
+  console.log(`diffWeek: ${diffWeek}`);
+}
+//NOTE: if sutc - eutc < 0 its a different equation
