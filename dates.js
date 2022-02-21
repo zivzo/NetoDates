@@ -1,28 +1,69 @@
 // days - 0 sunday...
 //if start day is 6 and end day is 0 we return 1, we should return 0
 //if full weeks is 0 and sdate is 6 and edate is 0 return 0
-const saveTime = (startDate, endDate) =>{
+const saveTime = (startDate, endDate) => {
     const sDate = new Date(startDate.value);
-    const sUtcDay = sDate.getUTCDay();
+    let sUtcDay = sDate.getUTCDay() === 0 ? 7 : sDate.getUTCDay();
     let eDate = new Date(endDate.value);
-    const eUtcDay = eDate.getUTCDay();
-    // console.log(sUtcDay);
-    // console.log(eUtcDay);
+    let eUtcDay = eDate.getUTCDay() === 0 ? 7 : eDate.getUTCDay();
+    let sub = 0;
+    //NOTE: both on weekends so need to substruct 1 in the end, means saturday or sunday
+    if(sUtcDay > 5 && eUtcDay > 5)
+    {
+        //both days are weekend
+        sub = 1;
+    }
+    let startDateCounter = sUtcDay > 5 ? 5 : sUtcDay;
+    let endDateCounter = eUtcDay> 5 ? 5 : eUtcDay;
+    const newDateStemp = eDate.getTime() - sDate.getTime();//days between in milliseconds
+    const diffWeek = Math.floor(newDateStemp/(1000*60*60*24*7))//weeks between two dates
+    let calcBuisnessDays;
 
-    //NOTE: looking at sunday as thursday
-    if(sUtcDay !== 0 && eUtcDay === 0){
-        eDate.setDate(eDate.getDate() - 2);
-    }
-    //NOTE: looking at saturday as thursday
-    if(sUtcDay !== 0 && eUtcDay === 6 || (sUtcDay === 0 && eUtcDay === 6)){
-        eDate.setDate(eDate.getDate() - 1);
-    }
-    const newDateStemp = eDate.getTime() - sDate.getTime();
-    const nDays = (newDateStemp/(1000*60*60*24));//days between two dates
-    const fullWeeks = Math.floor(nDays/7);
-    let workingDay = nDays - (fullWeeks*2);//NOTE: (-1 in true not include /+1 in false include) to include the start date in the calculation, can remove it if we want to not include the start date
+    if (sUtcDay <= eUtcDay) { //Equal to makes it reduce 5 days
+        calcBuisnessDays = (diffWeek * 5) + (endDateCounter - startDateCounter)
+      } 
+      else {
+        calcBuisnessDays = ((diffWeek + 1) * 5) - (startDateCounter - endDateCounter)
+      }
+      calcBuisnessDays -= sub;
+    console.log(calcBuisnessDays+1);
+    // //NOTE: looking at sunday as thursday
+    // if(sUtcDay !== 0 && eUtcDay === 0){
+    //     eDate.setDate(eDate.getDate() - 2);
+    // }
     
-    //NOTE: if start date in saturday and end date is sunday, special occasion, working day 0 (algorithem says 1)
+    // //NOTE: looking at saturday as thursday
+    // if(sUtcDay === 6 && eUtcDay === 6){
+
+    // }else if(eUtcDay === 6){
+    //     eDate.setDate(eDate.getDate() - 1);
+    // }
+    // const endMinusStartUtc = Math.abs(eUtcDay - sUtcDay);
+    // const weeks = (diffDays - endMinusStartUtc) / 7;
+    // const buisness =  diffDays - (weeks*2) + endMinusStartUtc;
+    // console.log(`buisnesssss: ${buisness}`);
+    // const fullWeeks = Math.floor((diffDays/7));
+
+    // const buisnessNoEnds = diffDays - (fullWeeks*2)
+    // const buisnessWithEnds = (sUtcDay === 6 ? 0 : sUtcDay) - (eUtcDay === 6 ? 5 : eUtcDay);
+    // const daysFromStart = fullWeeks%7;
+    
+    // console.log(`buisnessNoEnds : ${buisnessNoEnds}`);
+    // console.log(`buisnessWithEnds: ${buisnessWithEnds}`);
+    // console.log(`diffDays: ${diffDays}`);
+    // console.log(`fullweeks: ${fullWeeks}`);
+    // console.log(`buisness: ${Math.abs(buisnessNoEnds-buisnessWithEnds)}`);
+    // const fullWeeks = Math.floor(diffDays/7);
+    // const diffMinusEndUtc = diffDays-(eUtcDay === 6 ? 5 : eUtcDay);
+    // //let workingDay = diffDays - (fullWeeks*2);
+    // const moduleSeven = diffMinusEndUtc%7;
+    // const fullWeeksTimeTwo = Math.floor(diffMinusEndUtc/7)*2;
+    // const workingDay = diffMinusEndUtc-fullWeeksTimeTwo;
+    //NOTE: Tests ------
+    
+    
+
+  //NOTE: if start date in saturday and end date is sunday, special occasion, working day 0 (algorithem says 1)
     // if(sUtcDay === 0 && eUtcDay === 6){
     //     workingDay--;
     // }
@@ -34,11 +75,7 @@ const saveTime = (startDate, endDate) =>{
     // if(sUtcDay === 6 || sUtcDay === 0 ||eUtcDay === 6 || eUtcDay === 0 ){
     //     workingDay--;
     // }
-    
-    
-    console.log(`Days between dates ${nDays}`);
-    console.log(`Full Weeks time 2: ${fullWeeks*2}`);
-    console.log(`working days: ${workingDay} from the ${sDate} Excluded`);
+
     // if(nDays < 7){
     //     const arr = [];
     //     let dayIterate = nDays;
